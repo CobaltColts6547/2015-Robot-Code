@@ -1,6 +1,6 @@
-#2015-Robot-Code
+#2015-Robot-Code: Ethan's Fork
 ===============
 
 ##Team 6547
 
-Official code for the 2014-15 FTC robot.
+My code for the 2014-15 FTC Cascade Effect robot. Currently includes useful encoder functions, team spirit, and drive code.
