@@ -20,119 +20,30 @@
 #include<JoystickDriver.c>
 #include<spirit.h>
 
-//constants for directions
-const int up = 0;
-const int upLeft = 1;
-const int left = 2;
-const int downLeft = 3;
-const int down = 4;
-const int downRight = 5;
-const int right = 6;
-const int upRight = 7;
-const int press = -1;
+int x1 = joystick.joy1_x1;
+int x2 = joystick.joy1_x2;
+int y1 = joystick.joy1_y1;
 
 const int power = 75;//motor power
 //factors to multiply power by
-int frontLeftFactor = 0;
-int frontRightFactor = 0;
-int backLeftFactor = 0;
-int backRightFactor = 0;
 
 task main()
 {
-	displayLogo();//display logo...
-	//contols: 8-way arrow to move straight in various directions. Left and Right triggers to spin.
+	displayLogo();
+	
 	while(true)
 	{
 		//update joystick
 		getJoystickSettings(joystick);
-		//set start motors
-		motor[frontLeft] = power * frontLeftFactor;
-		motor[frontRight] = power * frontRightFactor;
-		motor[backLeft] = power * backLeftFactor;
-		motor[backRight] = power * backRightFactor;
+		x1 = joystick.joy1_x1;
+		x2 = joystick.joy1_x2;
+		y1 = joystick.joy1_y1;
+		//set drive motors
 
-		//diferent cases = different directions of arrow
-		switch(joystick.joy1_TopHat)
-		{
-		case up:
-			frontLeftFactor = -1;
-			frontRightFactor = 1;
-			backLeftFactor = 0;
-			backRightFactor = 0;
-			break;
-
-		case upLeft:
-			frontLeftFactor = 0;
-			frontRightFactor = 1;
-			backLeftFactor = -1;
-			backRightFactor = 0;
-			break;
-
-		case left:
-			frontLeftFactor = 1;
-			frontRightFactor = 0;
-			backLeftFactor = -1;
-			backRightFactor = 0;
-			break;
-
-		case downLeft:
-			frontLeftFactor = -1;
-			frontRightFactor = 0;
-			backLeftFactor = 0;
-			backRightFactor = 1;
-			break;
-
-		case down:
-			frontLeftFactor = 0;
-			frontRightFactor = 0;
-			backLeftFactor = -1;
-			backRightFactor = 1;
-			break;
-
-		case downRight:
-			frontLeftFactor = 0;
-			frontRightFactor = -1;
-			backLeftFactor = 1;
-			backRightFactor = 0;
-			break;
-
-		case right:
-			frontLeftFactor = 0;
-			frontRightFactor = -1;
-			backLeftFactor = 0;
-			backRightFactor = 1;
-			break;
-
-		case upRight:
-			frontLeftFactor = 1;
-			frontRightFactor = 0;
-			backLeftFactor = 0;
-			backRightFactor = -1;
-			break;
-
-		case press:
-			frontLeftFactor = 0;
-			frontRightFactor = 0;
-			backLeftFactor = 0;
-			backRightFactor = 0;
-			break;
-	}//end switch
-
-	if(joy1Btn(6))//right trigger, spin right
-	{
-			frontLeftFactor = 1;
-			frontRightFactor = 1;
-			backLeftFactor = 1;
-			backRightFactor = 1;
-	}
-	else if(joy1Btn(5))//left trigger, spin left
-	{
-			frontLeftFactor = -1;
-			frontRightFactor = -1;
-			backLeftFactor = -1;
-			backRightFactor = -1;
-	}
+		motor[frontLeft] = y1 + x1 + x2;
+		motor[frontRight] = -y1 + x1 + x2;
+		motor[backLeft] = y1 - x1 + x2;
+		motor[backRight] = -y1 - x1 + x2;
 
 }//end while loop
 }
